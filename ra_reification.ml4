@@ -44,7 +44,8 @@ module Tbl : sig
      yielding elements of type [typ], with [def] as default value *)
   val to_env: t -> constr -> constr -> constr
 end = struct
-  type t = ref ((constr*constr*constr) list * int)
+  (*type t = ref ((constr*constr*constr) list * int)*)
+  type t = ((constr*constr*constr) list * int)
 
   let create () = ref([],1)
 

@@ -80,6 +80,7 @@ COQSRCLIBS?=-I "$(COQLIB)kernel" -I "$(COQLIB)lib" \
   -I "$(COQLIB)interp" -I "$(COQLIB)printing" -I "$(COQLIB)intf" \
   -I "$(COQLIB)proofs" -I "$(COQLIB)tactics" -I "$(COQLIB)tools" \
   -I "$(COQLIB)toplevel" -I "$(COQLIB)stm" -I "$(COQLIB)grammar" \
+  -I "$(COQLIB)engine" -I "$(COQLIB)ltac" \
   -I "$(COQLIB)config" \
   -I "$(COQLIB)/plugins/btauto" \
   -I "$(COQLIB)/plugins/cc" \
@@ -99,6 +100,10 @@ COQSRCLIBS?=-I "$(COQLIB)kernel" -I "$(COQLIB)lib" \
   -I "$(COQLIB)/plugins/syntax" \
   -I "$(COQLIB)/plugins/xml"
 ZFLAGS=$(OCAMLLIBS) $(COQSRCLIBS) -I $(CAMLP4LIB)
+
+CAMLLIB=/usr/lib/ocaml/
+OCAMLC=/usr/bin/ocamlc
+OCAMLOPT=/usr/bin/ocamlopt
 
 CAMLC?=$(OCAMLC) -c -rectypes -thread
 CAMLOPTC?=$(OCAMLOPT) -c -rectypes -thread
@@ -408,6 +413,9 @@ $(filter-out $(MLLIBFILES:.mllib=.cmxs),$(MLFILES:.ml=.cmxs) $(ML4FILES:.ml4=.cm
 
 $(MLLIBFILES:.mllib=.cmxs): %.cmxs: %.cmxa
 	$(CAMLOPTLINK) $(ZDEBUG) $(ZFLAGS) -linkall -shared -o $@ $<
+
+$(MLLIBFILES:.mllib=.cmxs): %.cmxs: %.cmxa
+	$(CAMLOPTLINK) $(ZDEBUG) $(ZFLAGS) -linkall -o $@ $<
 
 $(MLLIBFILES:.mllib=.cma): %.cma: | %.mllib
 	$(CAMLLINK) $(ZDEBUG) $(ZFLAGS) -a -o $@ $^

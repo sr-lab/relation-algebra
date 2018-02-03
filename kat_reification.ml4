@@ -69,7 +69,8 @@ module Tbl : sig
      together with the associated information *)
   val get: 'a t -> int -> constr*'a
 end = struct
-  type 'a t = ref ((constr*constr*'a) list)
+  (*type 'a t = ref ((constr*constr*'a) list)*)
+  type 'a t = ((constr*constr*'a) list)
 
   let create () = ref []
 
